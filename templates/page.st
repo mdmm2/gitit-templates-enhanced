@@ -6,6 +6,7 @@
   <title>$pagetitle$ - $wikititle$</title>
   <link rel="stylesheet" href="$base$/css/bootstrap.min.css" />
   <link rel="stylesheet" href="$base$/css/gitit.css" />
+  <link rel="stylesheet" href="$base$/css/bootstrap-markdown-editor.css" />
   $if(feed)$
   <link href="$base$/_feed/" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed" />
   <link href="$base$/_feed$pageUrl$" type="application/atom+xml" rel="alternate" title="This page's ATOM Feed" />
@@ -43,31 +44,15 @@
   <script src="$base$/js/jquery-ui-1.10.4.custom.min.js"></script>
   <script src="$base$/js/gitit.min.js"></script>
   <script src="$base$/js/ace-1.2.5/ace.js"></script>
+  <script src="$base$/js/bootstrap-markdown-editor.js"></script>
   <!-- editor -->
   <script>
-    \$('textarea[id="editedText"]').each(function () {
-      var textarea = \$(this);
-      var editDiv = \$('<div>', {
-        position: 'absolute',
-        height: textarea.height(),
-        'class': "tex2jax_ignore",   // ignore mathjax on the editor
-        id: "editedTextAce"
-      }).insertBefore(textarea);
-      textarea.css('display', 'none');
-
-      var editor = ace.edit(editDiv[0]);
-      editor.setTheme("ace/theme/tomorrow");
-      editor.setKeyboardHandler();
-      editor.renderer.setShowGutter(false);
-      editor.getSession().setUseWrapMode(true);
-      editor.getSession().setValue(textarea.val());
-      editor.getSession().setMode("ace/mode/markdown");
-
-      editor.getSession().on('change', function(){
-        textarea.val(editor.getSession().getValue());
-      });
-
-    });
+    // Change the textarea into an advanced edtior
+    \$('textarea[id="editedText"]').markdownEditor();
+    // NOTE: This is very important to stop MathJax from changing the formulas
+    // in the editor to images. I get the class of the editor from Firefox's
+    // inspector. This shall appear AFTER the editor is created.
+    \$('.ace_editor').addClass('tex2jax_ignore');
   </script>
 </body>
 
