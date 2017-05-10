@@ -1,14 +1,29 @@
 #!/bin/bash
+#
+# This script changes the ownership of data volumes to specified UID and GID
+# and run command as that user, so external data volumes are correctly
+# preserved.
 
-GITIT_CONFIG_FILE=/data/gitit/gitit.conf
-SUPERVISORD_CONFG_FILE=/data/gitit/supervisord.conf
+# NOTE: Please change this line to reflect the VOLUME command in Dockerfile
+DATA_VOLUMES=(/data/gitit-run /data/gitit-wiki)
 
-if [ ! -f "$SUPERVISORD_CONFG_FILE" ]; then
-    cp /data/gitit/sample.supervisord.conf $SUPERVISORD_CONFG_FILE
+if [ $# -lt 1 ]; then
+    echo "Usage: docker run [-e CT_HOST_UID=UID] [-e CT_HOST_GID=GID]"
+    echo "       programfan/docker-gitit-wiki"
+    echo "       (/usr/local/bin/run-service.sh|CMD ARGS)"
+    exit 2
 fi
 
-if [ ! -f "$GITIT_CONFIG_FILE" ]; then
-    cp /data/gitit/sample.gitit.conf $GITIT_CONFIG_FILE
+if [ -n "$CT_HOST_UID" ]; then
+    NEW_GID=${CT_HOST_GID:-1000}
+    GROUP_CHECK=$(getent group $NEW_GID)
+    [[ $? -ne 0 ]] && groupadd -g $NEW_GID all_users
+    useradd -u $CT_HOST_UID -g $NEW_GID -d /home/user user
+    for d in ${DATA_VOLUMES[@]}; do
+        chown $CT_HOST_UID:$NEW_GID $d
+    done
+    gosu user $@
+else
+    gosu root $@
 fi
 
-supervisord -c /data/gitit/supervisord.conf
