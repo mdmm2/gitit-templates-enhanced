@@ -48,7 +48,21 @@
   <!-- editor -->
   <script>
     // Change the textarea into an advanced edtior
-    \$('textarea[id="editedText"]').markdownEditor();
+    \$('textarea[id="editedText"]').markdownEditor({
+      preview: true,
+      onPreview: function (content, callback) {
+        \$.ajax({
+          url: location.pathname.replace(/_edit\\//,"_preview/"),
+          type: 'POST',
+          dataType: 'html',
+          data: {raw: content},
+        }).done(function(result) {
+          callback(result);
+          var e = document.getElementById("MathExample");
+          MathJax.Hub.Queue(["Typeset", MathJax.Hub, e])
+        });
+      }
+    });
     // NOTE: This is very important to stop MathJax from changing the formulas
     // in the editor to images. I get the class of the editor from Firefox's
     // inspector. This shall appear AFTER the editor is created.
