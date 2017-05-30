@@ -98,6 +98,7 @@
 
   <script>
     \$('#page_create_dlg_do').click(function(){
+      \$("#page_create_dlg").modal('hide');
       var v = \$('#new_page_title').val().trim();
       if (v) {
         \$('#new_page_title').val('');
@@ -107,7 +108,7 @@
     });
 
     \$("#page_create_link").click(function(){
-      \$("#page_create_dlg").modal();
+      \$("#page_create_dlg").modal('show');
     });
   </script>
 
