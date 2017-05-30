@@ -33,14 +33,6 @@
     </div>
 </div>
 
-<!-- jQuery UI dialog for create new page -->
-<div id="page_create_dlg" title="Create a Page" style="display: none;">
-  <form>
-      <label>Page Title:</label>
-      <input type='text' name='new_page_title' id='new_page_title' class='text ui-widget-content ui-corner-all'>
-  </form>
-</div>
-
 <div class="col-sm-6 col-md-12">
     <div class="panel panel-default">
         <div class="panel-heading">This page</div>

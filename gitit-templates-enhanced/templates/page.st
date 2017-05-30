@@ -5,7 +5,6 @@
   <meta charset="UTF-8" />
   <title>$pagetitle$ - $wikititle$</title>
   <link rel="stylesheet" href="$base$/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="$base$/css/jquery-ui.min.css" />
   <link rel="stylesheet" href="$base$/css/bootstrap-markdown-editor.css" />
   <link rel="stylesheet" href="$base$/css/gitit.css" />
   $if(feed)$
@@ -42,7 +41,6 @@
   $getuser()$
   <script src="$base$/js/jquery.min.js"></script>
   <script src="$base$/js/bootstrap.min.js"></script>
-  <script src="$base$/js/jquery-ui.min.js"></script>
   <script src="$base$/js/gitit.min.js"></script>
   <script src="$base$/js/ace-1.2.5/ace.js"></script>
   <script src="$base$/js/bootstrap-markdown-editor.js"></script>
@@ -69,39 +67,50 @@
     // inspector. This shall appear AFTER the editor is created.
     \$('.ace_editor').addClass('tex2jax_ignore');
   </script>
-  <script>
-    var dialog, form;
 
-    function createPage() {
+  <!-- Bootstrap Modal dialog for page creation -->
+  <div class="modal fade" tabindex="-1" role="dialog" id="page_create_dlg">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Create a Page</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label>Page Title:</label>
+              <input type="text" class="form-control" id="new_page_title" aria-describedby="titleHelp" placeholder="Enter Page Title">
+              <small id="titleHelp" class="form-text text-muted">
+                Input any string, use '/' to create page in subfolders, for example
+                'My Topic/My Thing'.
+              </small>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="page_create_dlg_do">Create Page</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <script>
+    \$('#page_create_dlg_do').click(function(){
       var v = \$('#new_page_title').val().trim();
       if (v) {
         \$('#new_page_title').val('');
         var p = "/_edit/" + v;
         location.pathname = p;
       }
-    }
-
-    dialog = \$("#page_create_dlg").dialog({
-      autoOpen: false,
-      modal: true,
-      buttons: {
-        "Create a page": createPage,
-        "Cancel": function() {
-          \$('#new_page_title').val('');
-          dialog.dialog("close");
-        }
-      }
-    });
-
-    form = dialog.find("form").on("submit", function(event) {
-      event.preventDefault();
-      createPage();
     });
 
     \$("#page_create_link").click(function(){
-      dialog.dialog('open');
+      \$("#page_create_dlg").modal();
     });
   </script>
+
 </body>
 
 </html>
