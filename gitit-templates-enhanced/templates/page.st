@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>$pagetitle$ - $wikititle$</title>
-  <link rel="stylesheet" href="$base$/css/jquery-ui.min.css" />
   <link rel="stylesheet" href="$base$/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="$base$/css/jquery-ui.min.css" />
   <link rel="stylesheet" href="$base$/css/bootstrap-markdown-editor.css" />
   <link rel="stylesheet" href="$base$/css/gitit.css" />
   $if(feed)$
