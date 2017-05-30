@@ -66,6 +66,16 @@
     // in the editor to images. I get the class of the editor from Firefox's
     // inspector. This shall appear AFTER the editor is created.
     \$('.ace_editor').addClass('tex2jax_ignore');
+    // Added automatic log message
+    \$(function(){
+      var logMsg = \$('#logMsg');
+      if (logMsg) {
+        var v = decodeURI(location.pathname.replace(/.*_edit\\//, ""));
+        var isCreate = \$('textarea[id="editedText"]').val() ? false : true;
+        var msg = (isCreate ? "Create page '" : "Update page '") + v + "'";
+        logMsg.val(msg);
+      }
+    });
   </script>
 
   <!-- Bootstrap Modal dialog for page creation -->
