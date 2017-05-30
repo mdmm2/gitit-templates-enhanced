@@ -20,7 +20,7 @@
                 <li><a href="$base$/_categories">Categories</a></li>
                 <li><a href="$base$/_random">Random page</a></li>
                 <li><a href="$base$/_activity">Recent activity</a></li>
-                <li><a href="$base$/_edit">Create a page</a></li>
+                <li><a id="page_create_link" href="javascript:void(0)">Create a page</a></li>
                 $if(wikiupload)$
                     <li><a href="$base$/_upload">Upload a file</a></li>
                 $endif$
@@ -31,6 +31,14 @@
             </ul>
         </div>
     </div>
+</div>
+
+<!-- jQuery UI dialog for create new page -->
+<div id="page_create_dlg" title="Create a Page" style="display: none;">
+  <form>
+      <label>Page Title:</label>
+      <input type='text' name='new_page_title' id='new_page_title' class='text ui-widget-content ui-corner-all'>
+  </form>
 </div>
 
 <div class="col-sm-6 col-md-12">
