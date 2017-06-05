@@ -11,6 +11,16 @@
   <link href="$base$/_feed/" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed" />
   <link href="$base$/_feed$pageUrl$" type="application/atom+xml" rel="alternate" title="This page's ATOM Feed" />
   $endif$
+  <style>
+    .scrollable-menu {
+      height: auto;
+      max-height: 10em;
+      overflow-x: hidden;
+    }
+    #exportbox {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
@@ -67,12 +77,13 @@
     // inspector. This shall appear AFTER the editor is created.
     \$('.ace_editor').addClass('tex2jax_ignore');
     // Added automatic log message
-    \$(function(){
-      var logMsg = \$('#logMsg');
-      if (logMsg) {
+    \$(document).ready(function(){
+      var logMsg = \$('#editform #logMsg');
+      if (logMsg.length) {
+        console.log(logMsg);
         var v = decodeURI(location.pathname.replace(/.*_edit\\//, ""));
         var isCreate = \$('textarea[id="editedText"]').val() ? false : true;
-        var msg = (isCreate ? "Create page '" : "Update page '") + v + "'";
+        var msg = `\${isCreate ? "Create" : "Update"} page '\${v}'`;
         logMsg.val(msg);
       }
     });
@@ -120,6 +131,166 @@
     \$("#page_create_link").click(function(){
       \$("#page_create_dlg").modal('show');
     });
+  </script>
+
+  <!-- Bootstrap Modal dialog for file upload -->
+  <div class="modal fade" tabindex="-1" role="dialog" id="file_upload_dlg">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Upload a File</h4>
+        </div>
+        <div class="modal-body">
+          <form id="file_upload_form" enctype="multipart/form-data">
+            <div class="form-group">
+              <label>File to upload:</label>
+              <input type="file" class="form-control" name="file" id="file" />
+            </div>
+            <div class="form-group">
+              <label>Name on wiki (including extensions):</label>
+              <div class="input-group">
+                <input type="text" class="form-control" name="wikiname" id="wikiname" value="" />
+                <span class="input-group-addon">
+                  <input type="checkbox" name="overwrite" id="overwrite" value="yes"/>
+                  <span>Overwrite existing file</span>
+                </span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Commit message:</label>
+              <input type="text" class="form-control" name="logMsg" id="logMsg" placeholder="Commit message"/>
+            </div>
+          </form>
+          <div id="upload_done" class="alert alert-success alert-dismissible"
+            hidden="true">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Done!</strong> Upload Done.
+          </div>
+          <div id="upload_failed" class="alert alert-danger alert-dismissible"
+            hidden="true">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Failed!</strong> Upload failed.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="file_upload_dlg_do">Upload File</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="upload_status_dlg">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="upload_status_dlg_title">Title</h4>
+        </div>
+        <div class="modal-body">
+          <span id="upload_status_dlg_content"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <script>
+
+    function reset_file_upload_dlg() {
+      \$('#file_upload_dlg #file').val('');
+      \$('#file_upload_dlg #wikiname').val('');
+      \$('#file_upload_dlg #logMsg').val('');
+      \$('#file_upload_dlg #overwrite').prop('checked', false);
+    }
+
+    \$('#file_upload_dlg #file').change(function(){
+        var fn = \$(this).val().split(/[\\\\/]/).pop();
+        \$('#file_upload_dlg #wikiname').val(fn);
+        \$('#file_upload_dlg #logMsg').val(`Upload file '\${fn}'`);
+    });
+
+    \$('#file_upload_dlg_do').click(function(){
+      var v = \$('#file').val();
+      if (v) {
+        \$.ajax({
+          type: 'POST',
+          url: '/_upload',
+          cache: false,
+          data: new FormData(\$('#file_upload_form')[0]),
+          processData: false,
+          contentType: false
+        }).done(function(res){
+          \$('#file_upload_dlg').modal('hide');
+          var doc = document.implementation.createHTMLDocument("TMP");
+          var dom = jQuery.parseHTML(res, doc, false);
+          var obj = jQuery(dom).find("#main #content");
+          var title = jQuery(obj).find(".pageTitle");
+          \$('#upload_status_dlg_title').text(title.text());
+          var msg = jQuery(obj).find(".messages");
+          if (msg.length) {
+            // Upload failed due to server limits, show the diag message
+            \$('#upload_status_dlg_content').html(msg);
+          } else {
+            // Upload succeed, show the returned messages. 
+            \$('#upload_status_dlg_content').html(obj);
+          }
+          \$('#upload_status_dlg').modal('show');
+        }).fail(function(req){
+          // Gitit always return success even if the upload acutally failed.
+          // the fail status only occurs when the ajax acutally failed.
+          \$('#file_upload_dlg').modal('hide');
+          \$('#upload_status_dlg_title').text('Upload Failed');
+          \$('#upload_status_dlg_content').html(req.responseText);
+          \$('#upload_status_dlg').modal('show');
+        });
+      }
+    });
+
+    \$("#file_upload_link").click(function(){
+      reset_file_upload_dlg();
+      \$("#file_upload_dlg").modal('show');
+    });
+  </script>
+
+  <script>
+    // NOTE: hide it directly in css to avoid users seeing it.
+    // \$('#exportbox').hide();
+    var dropdown = \$('<div/>', {'class': 'dropup'});
+    \$('<a/>', {
+      'role': "button",
+      'class': "dropdown-toggle",
+      'data-toggle': "dropdown",
+      'aria-haspopup': "true",
+      'aria-expanded': "false",
+      'href': "javascript:void(0)"
+    }).html(' Export as ')
+      .prepend(\$('<span/>', {'class': 'glyphicon glyphicon-export', 'aria-hidden': "true"}))
+      .append(\$('<span/>', {'class': "caret"}))
+      .appendTo(dropdown);
+    var ul = \$('<ul>', {'class': 'dropdown-menu scrollable-menu'});
+    \$('#exportbox select > option').each(function() {
+      var link = \$('<a/>', {href: 'javascript:void(0)'})
+        .html(\$(this).text())
+        .click(function() {
+          \$('#exportbox select').val(\$(this).text());
+          // NOTE: trigger the form submit event does not work, so simulate it
+          // by triggering click on the export button.
+          \$('#export').trigger('click');
+        });
+      \$("<li/>").append(link).appendTo(ul);
+    });
+    ul.appendTo(dropdown);
+    \$('#exportbox').before(dropdown);
   </script>
 
 </body>
