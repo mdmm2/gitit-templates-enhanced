@@ -273,7 +273,7 @@
       'aria-haspopup': "true",
       'aria-expanded': "false",
       'href': "javascript:void(0)"
-    }).html(' Export as ')
+    }).html(' Export page as ')
       .prepend(\$('<span/>', {'class': 'glyphicon glyphicon-export', 'aria-hidden': "true"}))
       .append(\$('<span/>', {'class': "caret"}))
       .appendTo(dropdown);
