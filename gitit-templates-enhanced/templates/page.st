@@ -17,9 +17,17 @@
       max-height: 10em;
       overflow-x: hidden;
     }
+
     #exportbox {
       display: none;
     }
+
+    .img-responsive {
+      max-width: 80%;
+      height: auto;
+      display: block;
+    }
+
   </style>
 </head>
 
@@ -145,7 +153,7 @@
           <form id="file_upload_form" enctype="multipart/form-data">
             <div class="form-group">
               <label>File to upload:</label>
-              <input type="file" class="form-control" name="file" id="file" />
+              <input type="file" name="file" id="file" />
             </div>
             <div class="form-group">
               <label>Name on wiki (including extensions):</label>
@@ -162,20 +170,6 @@
               <input type="text" class="form-control" name="logMsg" id="logMsg" placeholder="Commit message"/>
             </div>
           </form>
-          <div id="upload_done" class="alert alert-success alert-dismissible"
-            hidden="true">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <strong>Done!</strong> Upload Done.
-          </div>
-          <div id="upload_failed" class="alert alert-danger alert-dismissible"
-            hidden="true">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <strong>Failed!</strong> Upload failed.
-          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -291,6 +285,12 @@
     });
     ul.appendTo(dropdown);
     \$('#exportbox').before(dropdown);
+  </script>
+  <script>
+    // Make the document more bootstrap
+    \$('table').addClass('table table-bordered table-striped');
+    \$('div.figure p').addClass('text-center');
+    \$('div.figure img').addClass('img-responsive center-block image-rounded');
   </script>
 
 </body>

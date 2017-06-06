@@ -338,4 +338,11 @@ code > span.er { color: #ff0000; font-weight: bold; }
         display: none !important;
     }
 
+    /* Images */
+    img {
+      page-break-before: auto;
+      page-break-after: auto;
+      page-break-inside: avoid;
+    }
+
 }
