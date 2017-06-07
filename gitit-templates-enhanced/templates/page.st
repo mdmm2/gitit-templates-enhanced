@@ -60,7 +60,7 @@
   <script src="$base$/javascript/jquery-3.2.1.min.js"></script>
   <script src="$base$/javascript/jquery-ui-interactions-1.12.1.min.js"></script>
   <script src="$base$/javascript/bootstrap-3.3.7.min.js"></script>
-  <script src="$base$/javascript/ace/ace.js"></script>
+  <script src="$base$/javascript/ace-1.2.5/ace.js"></script>
   <script src="$base$/javascript/bootstrap-markdown-editor-2.0.2.js"></script>
   <script src="$base$/javascript/gitit.js"></script>
   <!-- editor -->
