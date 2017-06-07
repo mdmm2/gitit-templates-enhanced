@@ -57,11 +57,12 @@
   $javascripts$
   $expire()$
   $getuser()$
-  <script src="$base$/js/jquery.min.js"></script>
-  <script src="$base$/js/bootstrap.min.js"></script>
-  <script src="$base$/js/gitit.min.js"></script>
-  <script src="$base$/js/ace-1.2.5/ace.js"></script>
-  <script src="$base$/js/bootstrap-markdown-editor.js"></script>
+  <script src="$base$/javascript/jquery-3.2.1.min.js"></script>
+  <script src="$base$/javascript/jquery-ui-interactions-1.12.1.min.js"></script>
+  <script src="$base$/javascript/bootstrap-3.3.7.min.js"></script>
+  <script src="$base$/javascript/ace/ace.js"></script>
+  <script src="$base$/javascript/bootstrap-markdown-editor-2.0.2.js"></script>
+  <script src="$base$/javascript/gitit.js"></script>
   <!-- editor -->
   <script>
     // Change the textarea into an advanced edtior
