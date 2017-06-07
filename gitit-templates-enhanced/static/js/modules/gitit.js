@@ -1,7 +1,7 @@
 // Drag and drop to compare versions
 $(document).ready(function() {
-  $("#content").prepend(
-    "<p class='bg-info'>Drag one revision onto another to see differences.</p>"
+  $("#content .history").after(
+    "<div class='bg-info'>Drag one revision onto another to see differences.</div>"
   );
   $(".difflink").draggable({
     helper: "clone"

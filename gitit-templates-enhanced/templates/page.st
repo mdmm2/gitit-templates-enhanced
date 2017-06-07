@@ -29,6 +29,7 @@
     }
 
   </style>
+
 </head>
 
 <body>
@@ -54,15 +55,33 @@
       </div>
     </div>
   </div>
-  $javascripts$
+
   $expire()$
-  $getuser()$
-  <script src="$base$/javascript/jquery-3.2.1.min.js"></script>
-  <script src="$base$/javascript/jquery-ui-interactions-1.12.1.min.js"></script>
-  <script src="$base$/javascript/bootstrap-3.3.7.min.js"></script>
-  <script src="$base$/javascript/ace-1.2.5/ace.js"></script>
-  <script src="$base$/javascript/bootstrap-markdown-editor-2.0.2.js"></script>
-  <script src="$base$/javascript/gitit.js"></script>
+
+  <script src="$base$/js/modules/jquery-3.2.1.min.js"></script>
+  <script src="$base$/js/modules/jquery-ui-interactions-1.12.1.min.js"></script>
+  <script src="$base$/js/modules/bootstrap-3.3.7.min.js"></script>
+  <script src="$base$/js/modules/ace-1.2.5/ace.js"></script>
+  <script src="$base$/js/modules/bootstrap-markdown-editor-2.0.2.min.js"></script>
+  <script src="$base$/js/modules/gitit.js"></script>
+  <script src="$base$/js/modules/mathjax-2.7.1/MathJax.js?config=TeX-AMS_HTML-full" async></script>
+
+  <!-- login status -->
+  <script>
+    \$.get("/_user", {}, function(username, status) {
+      \$(".logged_in_user").text(username);
+      if (username == "") {  // nobody logged in
+        \$(".registerlink").show();
+        \$(".loginlink").show();
+        \$(".logoutlink").hide();
+      } else {
+        \$(".registerlink").hide();
+        \$(".loginlink").hide();
+        \$(".logoutlink").show();
+      };
+    });
+  </script>
+
   <!-- editor -->
   <script>
     // Change the textarea into an advanced edtior
