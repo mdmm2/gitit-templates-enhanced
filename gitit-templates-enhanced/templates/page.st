@@ -293,7 +293,7 @@
       .appendTo(dropdown);
     var ul = \$('<ul>', {'class': 'dropdown-menu scrollable-menu'});
     \$('#exportbox select > option').each(function() {
-      var link = \$('<a/>', {href: 'javascript:void(0)'})
+      var link = \$('<a/>', {href: 'javascript:void(0)', 'class': 'dropdown-item'})
         .html(\$(this).text())
         .click(function() {
           \$('#exportbox select').val(\$(this).text());

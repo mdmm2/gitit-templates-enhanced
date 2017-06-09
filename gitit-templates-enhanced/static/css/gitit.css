@@ -58,7 +58,7 @@ h6 > a:link, h6 > a:active, h6 > a:hover, h6 > a:focus, h6 > a:visited {
     margin: 0 0 3px;
 }
 
-#sidebar a {
+#sidebar a:not(.dropdown-item) {
     display: inline-block;
     padding: 2px;
 }
