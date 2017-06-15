@@ -1,7 +1,10 @@
 // Drag and drop to compare versions
 $(document).ready(function() {
-  $("#content .history").after(
-    "<div class='bg-info'>Drag one revision onto another to see differences.</div>"
+  $("#content h1 :contains('Changes to')").parent().before(
+    "<div class='alert alert-info' role='alert'>" +
+    "  <span class='glyphicon glyphicon-info-sign' aria-hidden='true'></span>" +
+    "  Drag one revision onto another to see differences." +
+    "</div>"
   );
   $(".difflink").draggable({
     helper: "clone"
