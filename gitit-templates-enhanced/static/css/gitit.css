@@ -71,6 +71,10 @@ h6 > a:link, h6 > a:active, h6 > a:hover, h6 > a:focus, h6 > a:visited {
     padding: 0.7em;
 }
 
+#categoryList ul {
+    list-style: none;
+}
+
 #userbox {
     float: right;
 }

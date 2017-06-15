@@ -135,4 +135,6 @@ $(document).ready(function() {
   $('a.showmatch').show();
   $("#previewButton").hide(); // previewButton is obsolute
   $("pre.diff").attr('wrap', 'true');
+  $("#categoryList").before("<hr/>");
+  $("#categoryList a").prepend("<span class='glyphicon glyphicon-tag' aria-hidden='true'></span> ");
 });
