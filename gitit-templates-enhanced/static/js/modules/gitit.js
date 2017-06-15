@@ -134,4 +134,5 @@ $(document).ready(function() {
   $('pre.matches').hide();
   $('a.showmatch').show();
   $("#previewButton").hide(); // previewButton is obsolute
+  $("pre.diff").attr('wrap', 'true');
 });
