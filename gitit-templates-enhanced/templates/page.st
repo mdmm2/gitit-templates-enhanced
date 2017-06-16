@@ -129,7 +129,13 @@
           <form>
             <div class="form-group">
               <label>Page Title:</label>
-              <input type="text" class="form-control" id="new_page_title" aria-describedby="titleHelp" placeholder="Enter Page Title">
+              <div class="input-group">
+                <input type="text" class="form-control" id="new_page_title" aria-describedby="titleHelp" placeholder="Enter Page Title">
+                <span class="input-group-addon">
+                  <input type="checkbox" name="relative" id="relative" />
+                  <span>Relative to current page</span>
+                </span>
+              </div>
               <small id="titleHelp" class="form-text text-muted">
                 Input any string, use '/' to create page in subfolders, for example
                 'My Topic/My Thing'.
@@ -148,15 +154,22 @@
   <script>
     \$('#page_create_dlg_do').click(function(){
       \$("#page_create_dlg").modal('hide');
-      var v = \$('#new_page_title').val().trim();
+      var v = \$('#new_page_title').val().trim().replace(/^\\//, '');
       if (v) {
         \$('#new_page_title').val('');
+        if (\$('#relative').prop('checked')) {
+          var r = /.*?(\\/_\\w+)?(\\/[^\\/]+)?(\\/[^\\/]+)\$/;
+          var d = decodeURI(location.pathname.replace(r, '\$2'));
+          if (d) v = d.substr(1) + "/" + v;
+        }
         var p = "/_edit/" + v;
         location.pathname = p;
       }
     });
 
     \$("#page_create_link").click(function(){
+      \$('#page_create_dlg #relative').prop('checked', true);
+      \$('#page_create_dlg #new_page_title').val('');
       \$("#page_create_dlg").modal('show');
     });
   </script>
