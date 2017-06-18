@@ -1,4 +1,4 @@
-FROM programfan/docker-gitit
+FROM programfan/docker-gitit:latest
 LABEL maintainer="Yang Zhang <zyangmath@gmail.com>"
 
 VOLUME ["/data/gitit-wiki", "/data/gitit-run"]
