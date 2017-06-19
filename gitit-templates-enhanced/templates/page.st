@@ -157,7 +157,7 @@
       var v = \$('#new_page_title').val().trim().replace(/^\\//, '');
       if (v) {
         \$('#new_page_title').val('');
-        if (\$('#relative').prop('checked')) {
+        if (\$('#relative').prop('checked') && location.pathname != '/') {
           var r = /.*?(\\/_\\w+)?(\\/[^\\/]+)?(\\/[^\\/]+)\$/;
           var d = decodeURI(location.pathname.replace(r, '\$2'));
           if (d) v = d.substr(1) + "/" + v;
