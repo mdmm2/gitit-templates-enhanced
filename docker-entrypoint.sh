@@ -9,7 +9,7 @@ DATA_VOLUMES=(/data/gitit-run /data/gitit-wiki)
 
 if [ $# -lt 1 ]; then
     echo "Usage: docker run [-e CT_HOST_UID=UID] [-e CT_HOST_GID=GID]"
-    echo "       programfan/docker-gitit-wiki"
+    echo "       justingoodq/gitit"
     echo "       (/data/gitit-run/run-service.sh|CMD ARGS)"
     exit 2
 fi
