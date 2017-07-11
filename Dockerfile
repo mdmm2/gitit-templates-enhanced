@@ -1,5 +1,5 @@
-FROM programfan/docker-gitit:latest
-LABEL maintainer="Yang Zhang <zyangmath@gmail.com>"
+FROM justingoodq/gitit
+LABEL maintainer="Justin Good <justingoodq@gmail.com>"
 
 VOLUME ["/data/gitit-wiki", "/data/gitit-run"]
 ADD ./gitit-templates-enhanced /data/gitit-templates-enhanced/
